@@ -1,7 +1,12 @@
+archives
 perso.env
 rawdata
 datasets
 *.csv
+
+models/*
+!/models/README.md
+
 .DS_Store
 # Byte-compiled / optimized / DLL files
 __pycache__/
