@@ -12,7 +12,8 @@ import torch
 from torch.utils.data import DataLoader, random_split
 
 if __name__ == "__main__":
-
+    batch_size = 16
+    lr = 1e-4 / batch_size
     print("Prepare data...")
     text_descriptions = ["happy music", "sad melody", "upbeat tempo", "relaxing ambient"]
     audio_waveforms = torch.randn(len(text_descriptions), 16000)  # Simulate audio waveforms
@@ -25,8 +26,8 @@ if __name__ == "__main__":
 
     train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
-    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
     print("Create model...")
 
@@ -35,7 +36,7 @@ if __name__ == "__main__":
     decoder = MusicDecoder(input_dim=768, hidden_dim=512)
 
     optimizer = torch.optim.Adam(
-    list(text_encoder.parameters()) + list(audio_encoder.parameters()) + list(decoder.parameters()), lr=1e-4)
+    list(text_encoder.parameters()) + list(audio_encoder.parameters()) + list(decoder.parameters()), lr=lr)
 
     device = get_device()
     print(f"Training on {device}")

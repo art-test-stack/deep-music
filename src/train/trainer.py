@@ -146,18 +146,19 @@ class Trainer:
         
     def _train_step(self, trainloader):
         self.train()
+        running_loss = 0
         for text, audio in trainloader:
             text, audio = text.to(self.device), audio.to(self.device)
             text_embeds, audio_embeds, generated_audio = self._forward(text, audio)
 
             reconstruction_loss = ((generated_audio - audio) ** 2).mean()
             contrastive_loss = torch.nn.functional.cosine_embedding_loss(text_embeds, audio_embeds, torch.ones(len(text)))
-            loss = reconstruction_loss + contrastive_loss / len(trainloader.dataset)
-
+            loss = reconstruction_loss + contrastive_loss / len(text)
+            running_loss += loss.item() * len(text)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
-        return loss.item()
+        return running_loss / len(trainloader.dataset)
     
     def _forward(self, text, audio):
         text_embeds = self.text_encoder(text)

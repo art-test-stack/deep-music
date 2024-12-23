@@ -54,10 +54,6 @@ def extract_music_features(audio_path: str):
         }
     )
 
-# if __name__ == "__main__":
-#     extract_music_features()
-# ~/Music/Music/Media.localized/Music/Unknown\ Artist/Unknown\ Album/01\ S1\ 1.mp3
-
 from pathlib import Path
 path = Path('rawdata/01_S1_1.mp3')
 print(path)
