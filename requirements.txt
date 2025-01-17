@@ -1,0 +1,5 @@
+torch
+accelerate
+musiclm-pytorch
+fastapi
+uvicorn
